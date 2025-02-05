@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -24,13 +24,6 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.1" />
       <PackageReference Include="Notion.Net" Version="4.2.0" />
       <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="appsettings.json" />
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
 </Project>
