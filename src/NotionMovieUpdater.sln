@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotionMovieUpdater", "NotionMovieUpdater\NotionMovieUpdater.csproj", "{8EE142F9-282C-4DDA-A5BD-87D336E97FCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EE142F9-282C-4DDA-A5BD-87D336E97FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE142F9-282C-4DDA-A5BD-87D336E97FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE142F9-282C-4DDA-A5BD-87D336E97FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE142F9-282C-4DDA-A5BD-87D336E97FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
