@@ -30,10 +30,10 @@ jobs:
         run: dotnet restore
         
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build ./src/NotionMovieUpdater.sln --no-restore --configuration Release
         
       - name: Run application
-        run: dotnet run --configuration Release
+        run: dotnet run --project ./src/NotionMovieUpdater/NotionMovieUpdater.csproj --configuration Release --no-build
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
