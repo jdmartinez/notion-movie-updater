@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using NotionMovieUpdater;
 using NotionMovieUpdater.Services;
 
+/*
 var environment = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
 var configuration = new ConfigurationBuilder()
     .SetBasePath(AppContext.BaseDirectory)
@@ -14,22 +15,20 @@ var configuration = new ConfigurationBuilder()
     .AddCommandLine(args)
     .AddUserSecrets<Program>()
     .Build();
+    */
 
-var host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddLogging(options =>
-        {
-            options.ClearProviders();
-            options.AddConsole();
-        });
+var builder = Host.CreateApplicationBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
+builder.Services.AddLogging(options =>
+{
+    options.ClearProviders();
+    options.AddConsole();
+});
         
-        services.AddMovieService(configuration);
-        services.AddNotionService(configuration);
-    })
-    .Build();
+builder.Services.AddMovieService(builder.Configuration);
+builder.Services.AddNotionService(builder.Configuration);
+builder.Services.AddHostedService<Worker>();
 
-var updaterService = host.Services.GetRequiredService<INotionUpdaterService>();
-await updaterService.Update(); 
+var host = builder.Build();
 
 await host.RunAsync();
