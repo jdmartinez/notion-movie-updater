@@ -7,7 +7,7 @@ using NotionMovieUpdater.Services;
 
 var environment = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
 var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
+    .SetBasePath(AppContext.BaseDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables()
