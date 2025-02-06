@@ -7,6 +7,9 @@ public static class PageExtensions
 {
     public static bool HasCoverImage(this Page page)
         => page?.Cover is not null;
+    
+    public static Uri CoverUrl(this Page page)
+        => new(((ExternalFile)page.Cover)?.External.Url);
 
     public static NotionMovie ToNotionMovie(this Page page)
         => new NotionMovie

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Notion.Client;
 using NotionMovieUpdater.Entities;
+using NotionMovieUpdater.Extensions.Notion;
 
 namespace NotionMovieUpdater.Services;
 
@@ -20,18 +21,20 @@ public class NotionService : INotionService
         _logger = logger;
     }
     
-    public async IAsyncEnumerable<Page> GetAll([EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Page> GetPending([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var hasMore = true;
         var nextCursor = default(string);
+        var filter = new CheckboxFilter("Poster", false);
         
         while (hasMore)
         {
             var request = nextCursor is null 
-                ? new DatabasesQueryParameters() 
+                ? new DatabasesQueryParameters { Filter = filter } 
                 : new DatabasesQueryParameters
                     {
                         StartCursor = nextCursor,
+                        Filter = filter
                     }; 
 
             var queryResponse = await _notionClient.Databases.QueryAsync(_settings.DatabaseId, request, cancellationToken);
@@ -50,13 +53,17 @@ public class NotionService : INotionService
 
     public async Task UpdatePage(Page page, CancellationToken cancellationToken = default)
     {
-        if (page is null) return;
-
-        var arguments = new PagesUpdateParameters
-        {
-            Cover = page.Cover,
-        };
+        _logger.LogInformation("Updating cover for page {Page} with {Url}", page.ToNotionMovie().CleanTitle, page.CoverUrl());
+        
+        var arguments = new PagesUpdateParameters { Cover = page.Cover };
         
         await _notionClient.Pages.UpdateAsync(page.Id, arguments, cancellationToken);
+    }
+
+    public async Task UpdateProperties(Page page, IDictionary<string, PropertyValue> properties, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Updating page {PageId} with {Properties}", page.Id, properties);
+        
+        await _notionClient.Pages.UpdatePropertiesAsync(page.Id, properties, cancellationToken);
     }
 }
