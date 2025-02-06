@@ -22,7 +22,7 @@ public class NotionUpdaterService : INotionUpdaterService
     public async Task Update(CancellationToken cancellationToken = default)
     {
         var pages = _notionService
-            .GetAll(cancellationToken)
+            .GetPending(cancellationToken)
             .Where(page => !page.HasCoverImage());
         
         await foreach (var page in pages)
@@ -31,8 +31,8 @@ public class NotionUpdaterService : INotionUpdaterService
 
             if (!posterUrl.IsSome) continue;
 
-            page.AddCover(posterUrl.Value);
-            await _notionService.UpdatePage(page, cancellationToken);
+            await UpdateCover(page, posterUrl, cancellationToken);
+            await UpdatePosterProperty(page, posterUrl.IsSome, cancellationToken);
         }
     }
 
@@ -45,5 +45,25 @@ public class NotionUpdaterService : INotionUpdaterService
         var posterUri = await _movieService.GetPoster(movie.CleanTitle, movie.Type, cancellationToken);
 
         return posterUri;
+    }
+
+    private async Task UpdateCover(Page page, Option<Uri> posterUrl, CancellationToken cancellationToken = default)
+    {
+        if (!posterUrl.IsSome) return;
+
+        page.AddCover(posterUrl.Value);
+        await _notionService.UpdatePage(page, cancellationToken);
+    }
+
+    private async Task UpdatePosterProperty(Page page, bool value, CancellationToken cancellationToken = default)
+    {
+        if (!value) return;
+        
+        var properties = new Dictionary<string, PropertyValue>
+        {
+            { "Poster", new CheckboxPropertyValue { Checkbox = value } }
+        };
+        
+        await _notionService.UpdateProperties(page, properties, cancellationToken);
     }
 }
