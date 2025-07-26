@@ -43,7 +43,7 @@ public class NotionService : INotionService
             
             foreach (var page in queryResponse.Results)
             {
-                yield return page;
+                yield return page as Page;
             }
             
             hasMore = queryResponse.HasMore;
