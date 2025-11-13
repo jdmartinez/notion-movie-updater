@@ -1,4 +1,6 @@
 name: Update Notion Movies
+permissions:
+  contents: read
 
 on:
    schedule:
