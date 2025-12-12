@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <UserSecretsId>49025a88-64c5-4992-8d02-fef4d232befd</UserSecretsId>
@@ -23,7 +23,7 @@
       <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
       <PackageReference Include="Notion.Net" Version="4.4.0" />
-      <PackageReference Include="System.Linq.Async" Version="6.0.3" />
+      <PackageReference Include="System.Linq.Async" Version="7.0.0" />
     </ItemGroup>
 
 </Project>
